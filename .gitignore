@@ -1,2 +1,4 @@
-backend/node_*
-backend/dist
+app/backend/node_*
+app/backend/dist
+*/node_modules/*
+*/dist/*

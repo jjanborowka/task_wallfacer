@@ -18,6 +18,7 @@ services:
     restart: always
     depends_on:
       - postgres
+      - listener
     ports:
       - "3000:3000"
     environment:
@@ -30,5 +31,19 @@ services:
     volumes:
       - .:/backend
       - /backend/node_modules
+  listener:
+    build: ./blockchain-listener
+    container_name: blockchain-listener
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    environment:
+      - ADDRESS=0xf42f5795D9ac7e9D757dB633D693cD548Cfd9169
+      - METAMASK_API_KEY=dc5a0385bedf44e69def4cd00e209091
+    volumes:
+      - .:/blockchain-listener
+      - /blockchain-listener/node_modules
+    restart: always
 volumes:
   pgdata:
