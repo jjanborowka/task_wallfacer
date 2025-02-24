@@ -3,9 +3,15 @@ import {pool,dbClient} from './db/db'
 import fastifyWebsocket from "@fastify/websocket";
 import {analyticsRouts} from './routs'
 import { WebSocket } from 'ws';
+import fastifyCors from '@fastify/cors';
 const fastify = Fastify({ logger: true });
 fastify.register(fastifyWebsocket);
 fastify.register(analyticsRouts)
+// Register the CORS plugin
+fastify.register(fastifyCors, {
+  origin: 'http://localhost:3003', // Allow requests from this origin
+  methods: ['GET'], // Specify allowed methods
+});
 
 // Define a simple route
 fastify.get('/', async (request, reply) => {

@@ -22,7 +22,7 @@ export async function analyticsRouts(fastify: FastifyInstance) {
     query += " GROUP BY day_of_week;"
     console.log(query)
     const result = await pool.query(query, values);
-    return {"data":result}
+    return {"data":result.rows}
 }
 catch (err) {
     console.error('Error inserting data:', err);
