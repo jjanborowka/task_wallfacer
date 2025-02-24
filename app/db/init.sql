@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS date_dimension (
 
 -- Index for fast retrieval by date
 CREATE INDEX idx_date_dimension_full_date ON date_dimension(full_date);
+CREATE INDEX idx_date_day_of_week ON date_dimension(date_of_week);
 
 DO $$ 
 DECLARE 
