@@ -1,4 +1,5 @@
 app/backend/node_*
 app/backend/dist
-*/node_modules/*
+app/frontend/node_modules
+app/blockchain-listener/node_modules
 */dist/*
