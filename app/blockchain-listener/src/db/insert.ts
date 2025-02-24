@@ -28,3 +28,13 @@ export async function insertData(log:LogEntry) {
     }
 }
   
+
+export async function isTableEmpty(tableName: string): Promise<boolean> {
+    try {
+      const result = await pool.query(`SELECT EXISTS (SELECT 1 FROM ${tableName} LIMIT 1) AS empty`);
+      return !result.rows[0].empty; // If `empty` is false, table has data; otherwise, it's empty.
+    } catch (error) {
+      console.error('Error checking table:', error);
+      throw error;
+    }
+  }

@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS FACT_TABLE(
 );
 CREATE INDEX idx_fact_table ON FACT_TABLE(TIME_STAMP);
 CREATE INDEX idx_transaction_hash on FACT_TABLE(TRANSACTION_HASH); -- to check duplication 
+CREATE INDEX idx_event_type on FACT_TABLE(EVENT_TYPE);
 
 
 -- Table containing statistics

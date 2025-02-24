@@ -1,9 +1,8 @@
 import { createPublicClient, webSocket, parseAbi, fromBlobs, GetLogsReturnType } from "viem";
 import { mainnet } from "viem/chains";
 import {depositAbi,windrowAbi} from './abi'
-import {formatLogArgs} from './helper_functions'
 import {LogEntry} from './types'
-import {insertData} from './db/insert'
+import {insertData,isTableEmpty} from './db/insert'
 const INFURA_PROJECT_ID = process.env.METAMASK_API_KEY;
 const INFURA_URL = `wss://base-mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}`;
 
@@ -40,6 +39,7 @@ client.watchEvent({
 
 
 async function main() {
+  if (await isTableEmpty("row_input_table")==true){
   const result_d = await client.getLogs({
     address: vaultAddress,
     event: depositAbi,
@@ -60,6 +60,7 @@ async function main() {
   result_w.forEach((log) =>{
     insertData(<LogEntry>log);
   })
+}
 }
 
 main()
