@@ -23,6 +23,7 @@ client.watchEvent({
   onLogs: (logs: any[]) => logs.forEach((log) => {
     console.log(Date())
     console.log(log)
+    insertData(log)
   }),
 }
 )
@@ -32,6 +33,7 @@ client.watchEvent({
   onLogs: (logs: any[]) => logs.forEach((log) => {
     console.log(Date())
     console.log(log)
+    insertData(log)
   }),
 }
 )

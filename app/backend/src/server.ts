@@ -1,8 +1,12 @@
 import Fastify from 'fastify';
-import {pool} from './db/db'
+import {pool,dbClient} from './db/db'
+import fastifyWebsocket from "@fastify/websocket";
 import {analyticsRouts} from './routs'
+import { WebSocket } from 'ws';
 const fastify = Fastify({ logger: true });
+fastify.register(fastifyWebsocket);
 fastify.register(analyticsRouts)
+
 // Define a simple route
 fastify.get('/', async (request, reply) => {
   try {
@@ -15,6 +19,20 @@ fastify.get('/', async (request, reply) => {
     return reply.status(500).send({ error: 'Database query failed' });
   }
 });
+
+// Websocket setup 
+fastify.register(async function (fastify) { 
+fastify.get('/ws', { websocket: true }, (socket :WebSocket, req) => {
+  dbClient.on("notification", (msg) => {
+    console.log("🔔 DB Update Received:", msg.payload);
+    socket.send(msg.payload??"")
+  })
+});
+})
+
+
+
+
 // Start the server
 const start = async () => {
   try {

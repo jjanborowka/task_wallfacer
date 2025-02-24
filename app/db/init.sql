@@ -101,12 +101,13 @@ SELECT * FROM (VALUES
 ) AS temp_table(EVENT_AVG, EVENT_COUNT,EVENT_SUM,EVENT_TYPE )
 WHERE NOT EXISTS (SELECT 1 FROM statistics_table);
 
-
 --- TRIGGERS 
 --- DATA INSERTION TRIGGER 
 CREATE OR REPLACE FUNCTION insert_data_function()
 RETURNS trigger AS
 $$
+DECLARE
+    payload TEXT;
 BEGIN
     -- INSERT DATA 
     INSERT INTO FACT_TABLE (
@@ -142,11 +143,23 @@ BEGIN
     EVENT_COUNT = EVENT_COUNT + 1 ,
     EVENT_AVG = (EVENT_SUM + NEW.EVENT_ASSETS) / (EVENT_COUNT+ 1 )
     where EVENT_TYPE = NEW.EVENT_TYPE;
+
+    -- SEND NOTIFICATION TO BACKEND 
+    SELECT json_build_object(
+        'action', TG_OP, 
+        'new', row_to_json(s)
+    )::TEXT 
+    INTO payload
+    FROM statistics_table s
+    WHERE s.EVENT_TYPE = NEW.EVENT_TYPE;
+    -- Send notification
+    PERFORM pg_notify('table_update', payload);
+
     RETURN NEW;
-    EXCEPTION -- So we don't lose inserted row if something fail here 
-        WHEN OTHERS THEN
-            RAISE NOTICE 'An error occurred: %', SQLERRM;
-            RETURN NEW; 
+    -- EXCEPTION -- So we don't lose inserted row if something fail here 
+    --     WHEN OTHERS THEN
+    --         RAISE NOTICE 'An error occurred: %', SQLERRM;
+    --         RETURN NEW; 
 END;
 $$ LANGUAGE plpgsql;
 
