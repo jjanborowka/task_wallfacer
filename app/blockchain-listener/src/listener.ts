@@ -1,7 +1,9 @@
-import { createPublicClient, webSocket, parseAbi, fromBlobs } from "viem";
+import { createPublicClient, webSocket, parseAbi, fromBlobs, GetLogsReturnType } from "viem";
 import { mainnet } from "viem/chains";
 import {depositAbi,windrowAbi} from './abi'
 import {formatLogArgs} from './helper_functions'
+import {LogEntry} from './types'
+import {insertData} from './db/insert'
 const INFURA_PROJECT_ID = process.env.METAMASK_API_KEY;
 const INFURA_URL = `wss://base-mainnet.infura.io/ws/v3/${INFURA_PROJECT_ID}`;
 
@@ -20,7 +22,8 @@ client.watchEvent({
   address: vaultAddress,
   event: depositAbi,
   onLogs: (logs: any[]) => logs.forEach((log) => {
-    formatLogArgs(log)
+    console.log(Date())
+    console.log(log)
   }),
 }
 )
@@ -28,7 +31,8 @@ client.watchEvent({
   address: vaultAddress,
   event: windrowAbi,
   onLogs: (logs: any[]) => logs.forEach((log) => {
-    formatLogArgs(log)
+    console.log(Date())
+    console.log(log)
   }),
 }
 )
@@ -36,19 +40,26 @@ client.watchEvent({
 
 
 async function main() {
-  const result = await client.getLogs({
+  const result_d = await client.getLogs({
     address: vaultAddress,
     event: depositAbi,
-    fromBlock:BigInt(26772530),
-    toBlock:BigInt(26772530)
+    fromBlock:BigInt(25661786),
   }
   
   )
-  console.log("test")
-  console.log(result)
-  result.forEach((log) =>{
-    formatLogArgs(log)
+  result_d.forEach((log) =>{
+    insertData(<LogEntry>log);
+  })
+  const result_w = await client.getLogs({
+    address: vaultAddress,
+    event: windrowAbi,
+    fromBlock:BigInt(25661786),
+  }
+  
+  )
+  result_w.forEach((log) =>{
+    insertData(<LogEntry>log);
   })
 }
-main()
 
+main()

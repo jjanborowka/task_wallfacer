@@ -14,8 +14,10 @@ export const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-pool.on("connect", () => {
+pool.on("connect", async () => {
   console.log("Connected to the PostgreSQL database");
 });
+
+
 
 export default pool;
