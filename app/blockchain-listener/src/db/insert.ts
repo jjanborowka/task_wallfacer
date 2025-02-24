@@ -1,10 +1,11 @@
 import {pool} from './db'
 import {LogEntry} from '../types'
 import { formatUnits } from 'viem';
-export async function insertData(log:LogEntry) {
+import {getRandomDate} from '../helper_functions'
+export async function insertData(log:LogEntry,historical:boolean) {
     try {
         // Prepare the SQL insert statement
-        const insertQuery = `
+        let insertQuery = `
             INSERT INTO row_input_table (EVENT_TYPE,EVENT_SENDER,EVENT_RECEIVER,EVENT_OWNER,EVENT_ASSETS,EVENT_SHARES,BLOCK_NUMBER,TRANSACTION_HASH)
             VALUES ($1,$2,$3,$4,$5,$6,$7,$8);
         `;
@@ -19,6 +20,18 @@ export async function insertData(log:LogEntry) {
             log.transactionHash
 
         ] 
+        // To fill data for demonstration it
+        // I am aware that it is possible to read this data via getBlock api but that will be no added value in this example 
+        if(historical){
+            insertQuery = `
+            INSERT INTO row_input_table (EVENT_TYPE,EVENT_SENDER,EVENT_RECEIVER,EVENT_OWNER,EVENT_ASSETS,EVENT_SHARES,BLOCK_NUMBER,TRANSACTION_HASH,TIME_STAMP)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);
+        `;
+        const start = new Date('2022-01-01T00:00:00Z');
+        const end = new Date();
+        valueList.push(getRandomDate(start,end).toISOString())
+        }
+
         // Execute the insert query
         const result = await pool.query(insertQuery, valueList);
 

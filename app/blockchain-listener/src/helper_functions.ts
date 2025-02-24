@@ -1,9 +1,10 @@
-import { AbiEvent, PublicClient } from "viem";
 
-export function formatLogArgs(logArgs:any) {
-    return Object.entries(logArgs)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join(', ');
-  }
+
   
 
+export function getRandomDate(start: Date, end: Date): Date {
+    const startTime = start.getTime();
+    const endTime = end.getTime();
+    const randomTime = Math.random() * (endTime - startTime) + startTime;
+    return new Date(randomTime);
+  }

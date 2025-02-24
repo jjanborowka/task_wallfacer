@@ -156,10 +156,10 @@ BEGIN
     PERFORM pg_notify('table_update', payload);
 
     RETURN NEW;
-    -- EXCEPTION -- So we don't lose inserted row if something fail here 
-    --     WHEN OTHERS THEN
-    --         RAISE NOTICE 'An error occurred: %', SQLERRM;
-    --         RETURN NEW; 
+    EXCEPTION -- So we don't lose inserted row if something fail here 
+        WHEN OTHERS THEN
+            RAISE NOTICE 'An error occurred: %', SQLERRM;
+            RETURN NEW; 
 END;
 $$ LANGUAGE plpgsql;
 

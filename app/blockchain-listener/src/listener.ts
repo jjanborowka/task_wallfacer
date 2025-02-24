@@ -23,7 +23,7 @@ client.watchEvent({
   onLogs: (logs: any[]) => logs.forEach((log) => {
     console.log(Date())
     console.log(log)
-    insertData(log)
+    insertData(log,false)
   }),
 }
 )
@@ -33,7 +33,7 @@ client.watchEvent({
   onLogs: (logs: any[]) => logs.forEach((log) => {
     console.log(Date())
     console.log(log)
-    insertData(log)
+    insertData(log,false)
   }),
 }
 )
@@ -50,7 +50,7 @@ async function main() {
   
   )
   result_d.forEach((log) =>{
-    insertData(<LogEntry>log);
+    insertData(<LogEntry>log,true);
   })
   const result_w = await client.getLogs({
     address: vaultAddress,
@@ -60,7 +60,7 @@ async function main() {
   
   )
   result_w.forEach((log) =>{
-    insertData(<LogEntry>log);
+    insertData(<LogEntry>log,true);
   })
 }
 }

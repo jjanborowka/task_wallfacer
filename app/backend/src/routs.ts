@@ -14,18 +14,19 @@ export async function analyticsRouts(fastify: FastifyInstance) {
         event_type
     ]
     if (from){
-        query += ` AND TIME_STAMP >= ${from}`
+        query += ` AND TIME_STAMP >= '${from}'`
     }
     if (to){
-        query += ` AND TIME_STAMP <= ${to}`
+        query += ` AND TIME_STAMP <= '${to}'`
     }
     query += " GROUP BY day_of_week;"
     console.log(query)
     const result = await pool.query(query, values);
-    return {"data":result.rows}
+    console.log(result)
+    return {"data":result.rows ? result.rows : []}
 }
 catch (err) {
-    console.error('Error inserting data:', err);
+    console.error('Error reading data:', err);
 }
 
   });

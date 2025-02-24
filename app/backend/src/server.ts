@@ -4,7 +4,7 @@ import fastifyWebsocket from "@fastify/websocket";
 import {analyticsRouts} from './routs'
 import { WebSocket } from 'ws';
 import fastifyCors from '@fastify/cors';
-const fastify = Fastify({ logger: true });
+export const fastify = Fastify({ logger: true });
 fastify.register(fastifyWebsocket);
 fastify.register(analyticsRouts)
 // Register the CORS plugin
