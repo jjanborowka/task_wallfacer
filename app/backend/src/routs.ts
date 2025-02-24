@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 import {pool} from './db/db'
 export async function analyticsRouts(fastify: FastifyInstance) {
   fastify.get("/analytics/weekday/:event_type", async (request, reply) => {

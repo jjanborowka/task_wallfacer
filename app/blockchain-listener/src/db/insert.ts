@@ -1,5 +1,5 @@
 import {pool} from './db'
-import {LogEntry} from '../types'
+import type {LogEntry} from '../types'
 import { formatUnits } from 'viem';
 import {getRandomDate} from '../helper_functions'
 export async function insertData(log:LogEntry,historical:boolean) {

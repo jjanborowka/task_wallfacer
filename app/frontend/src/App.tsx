@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import type {ApiResponse} from './types'
 const URL = "localhost"
 function App() {
   const [message, setMessage] = useState<string | null>(null);
-  const [apiData, setApiData] = useState<any>(null); 
+  const [apiData, setApiData] = useState<ApiResponse| null>(null); 
   const [isLoading, setIsLoading] = useState<boolean>(true); 
 
   useEffect(() => {
@@ -39,7 +40,6 @@ function App() {
       setIsLoading(true); 
       try {
         const response = await fetch(`http://${URL}:3000/analytics/weekday/Deposit`);
-        setApiData(response)
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

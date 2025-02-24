@@ -2,7 +2,7 @@ import Fastify from 'fastify';
 import {pool,dbClient} from './db/db'
 import fastifyWebsocket from "@fastify/websocket";
 import {analyticsRouts} from './routs'
-import { WebSocket } from 'ws';
+import type { WebSocket } from 'ws';
 import fastifyCors from '@fastify/cors';
 export const fastify = Fastify({ logger: true });
 fastify.register(fastifyWebsocket);
@@ -27,7 +27,7 @@ fastify.get('/', async (request, reply) => {
 });
 
 // Websocket setup 
-fastify.register(async function (fastify) { 
+fastify.register(async (fastify) => { 
 fastify.get('/ws', { websocket: true }, (socket :WebSocket, req) => {
   dbClient.on("notification", (msg) => {
     console.log("🔔 DB Update Received:", msg.payload);
