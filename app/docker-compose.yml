@@ -52,5 +52,21 @@ services:
       - .:/blockchain-listener
       - /blockchain-listener/node_modules
     restart: always
+  react-app:
+    build: ./frontend
+    container_name: frontend
+    restart: always
+    environment:
+      - PORT=3003
+    depends_on:
+      - postgres
+      - backend 
+      - listener
+    ports:
+      - "3003:3003"
+    volumes:
+      - .:/frontend
+      - /frontend/node_modules
+    command: ["serve", "-s", "build"]
 volumes:
   pgdata:
