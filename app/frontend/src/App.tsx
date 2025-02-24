@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import dotenv from "dotenv";
 
+dotenv.config();
+const URL = process.env.URL
 function App() {
   const [message, setMessage] = useState<string | null>(null);
   const [apiData, setApiData] = useState<any>(null); // State to hold the API data
@@ -9,7 +12,7 @@ function App() {
 
   useEffect(() => {
     // Connect to WebSocket server
-    const socket = new WebSocket("ws://localhost:3000/ws");
+    const socket = new WebSocket(`ws://${URL}:3000/ws`);
     
     socket.onopen = () => {
       console.log("Connected to WebSocket server");
@@ -39,7 +42,7 @@ function App() {
     const fetchData = async () => {
       setIsLoading(true); // Start loading
       try {
-        const response = await fetch('http://localhost:3000/analytics/weekday/Deposit');
+        const response = await fetch(`http://${URL}:3000/analytics/weekday/Deposit`);
         setApiData(response)
         // Check if the response is ok
         if (!response.ok) {

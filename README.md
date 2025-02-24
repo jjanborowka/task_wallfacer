@@ -39,6 +39,8 @@ Testing is limited to simple atomic functions. More advanced tests would require
 ## Module Testing Limitations
 Due to time constraints, tests have been included for only one module.
 
+## Simple public deployment 
+EC2 is by no means production ready solution. 
 
 # Data Base Design 
 
