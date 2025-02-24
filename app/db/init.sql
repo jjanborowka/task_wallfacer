@@ -35,8 +35,8 @@ CREATE INDEX idx_date_day_of_week ON date_dimension(day_of_week);
 
 DO $$ 
 DECLARE 
-    start_date DATE := '2000-01-01';  -- Change to your desired start date
-    end_date DATE := '2100-12-31';    -- Change to your desired end date
+    start_date DATE := '2000-01-01';  
+    end_date DATE := '2100-12-31';    
     current_date DATE := start_date;
 BEGIN 
     INSERT INTO date_dimension (
@@ -56,7 +56,7 @@ SELECT
     EXTRACT(QUARTER FROM gs) AS quarter,
     EXTRACT(MONTH FROM gs) AS month,
     EXTRACT(DAY FROM gs) AS day,
-    EXTRACT(DOW FROM gs) + 1 AS day_of_week,  -- PostgreSQL DOW: 0 = Sunday
+    EXTRACT(DOW FROM gs) + 1 AS day_of_week,  
     TO_CHAR(gs, 'Day') AS day_name,
     TO_CHAR(gs, 'Month') AS month_name,
     CASE WHEN EXTRACT(DOW FROM gs) IN (0, 6) THEN TRUE ELSE FALSE END AS is_weekend
@@ -65,7 +65,7 @@ WHERE NOT EXISTS (SELECT 1 FROM date_dimension);
 END $$;
 
 
--- Table in the center of our data warhorse , will be qured offen so need to be optimal 
+-- Table in the center of our data warehouse , will be query often so need to be optimal 
 CREATE TABLE IF NOT EXISTS FACT_TABLE(
     ID SERIAL PRIMARY KEY,
     DATE_ID INT NOT NULL,
@@ -153,7 +153,6 @@ BEGIN
     INTO payload
     FROM statistics_table s
     WHERE s.EVENT_TYPE = NEW.EVENT_TYPE;
-    -- Send notification
     PERFORM pg_notify('table_update', payload);
 
     RETURN NEW;

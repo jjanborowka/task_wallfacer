@@ -20,8 +20,10 @@ export async function insertData(log:LogEntry,historical:boolean) {
             log.transactionHash
 
         ] 
-        // To fill data for demonstration it
-        // I am aware that it is possible to read this data via getBlock api but that will be no added value in this example 
+        // To fill data for demonstration
+        // I am aware that it is possible to read this data via getBlock API,  
+        // but that will add no value in this example.
+
         if(historical){
             insertQuery = `
             INSERT INTO row_input_table (EVENT_TYPE,EVENT_SENDER,EVENT_RECEIVER,EVENT_OWNER,EVENT_ASSETS,EVENT_SHARES,BLOCK_NUMBER,TRANSACTION_HASH,TIME_STAMP)
@@ -35,7 +37,7 @@ export async function insertData(log:LogEntry,historical:boolean) {
         // Execute the insert query
         const result = await pool.query(insertQuery, valueList);
 
-        console.log('Insert successful:', result.rowCount); // Log the number of affected rows
+        console.log('Insert successful:', result.rowCount); 
     } catch (err) {
         console.error('Error inserting data:', err);
     }
@@ -45,7 +47,7 @@ export async function insertData(log:LogEntry,historical:boolean) {
 export async function isTableEmpty(tableName: string): Promise<boolean> {
     try {
       const result = await pool.query(`SELECT EXISTS (SELECT 1 FROM ${tableName} LIMIT 1) AS empty`);
-      return !result.rows[0].empty; // If `empty` is false, table has data; otherwise, it's empty.
+      return !result.rows[0].empty; 
     } catch (error) {
       console.error('Error checking table:', error);
       throw error;

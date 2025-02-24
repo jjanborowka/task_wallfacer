@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import dotenv from "dotenv";
-
-dotenv.config();
-const URL = process.env.URL ?? "localhost"
+const URL = "localhost"
 function App() {
   const [message, setMessage] = useState<string | null>(null);
-  const [apiData, setApiData] = useState<any>(null); // State to hold the API data
-  const [isLoading, setIsLoading] = useState<boolean>(true); // State to track loading
+  const [apiData, setApiData] = useState<any>(null); 
+  const [isLoading, setIsLoading] = useState<boolean>(true); 
 
   useEffect(() => {
-    // Connect to WebSocket server
     const socket = new WebSocket(`ws://${URL}:3000/ws`);
     
     socket.onopen = () => {
@@ -20,7 +16,7 @@ function App() {
 
     socket.onmessage = (event) => {
       console.log("Received update:", event.data);
-      setMessage(event.data); // Update state with the received message
+      setMessage(event.data); 
     };
 
     socket.onclose = () => {
@@ -31,35 +27,34 @@ function App() {
       console.error("WebSocket error:", error);
     };
 
-    // Cleanup WebSocket on component unmount
+    
     return () => {
       socket.close();
     };
   }, []);
 
-  // Fetch data from the REST API
+  
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); // Start loading
+      setIsLoading(true); 
       try {
         const response = await fetch(`http://${URL}:3000/analytics/weekday/Deposit`);
         setApiData(response)
-        // Check if the response is ok
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
-        const data = await response.json(); // Parse the JSON data
-        setApiData(data); // Store the received data
+        const data = await response.json(); 
+        setApiData(data); 
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setIsLoading(false); // End loading
+        setIsLoading(false); 
       }
     };
 
-    fetchData(); // Call the fetch function
-  }, []); // Empty dependency array means this runs once on mount
+    fetchData(); 
+  }, []); 
 
   return (
     <div className="App">
@@ -69,15 +64,14 @@ function App() {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <code>{message || "No messages yet"}</code>
-        {/* Display the loading state or the API data */}
         <div>
           <h2>API Data:</h2>
           {isLoading ? (
-            <p>Loading data...</p> // Show loading message
+            <p>Loading data...</p> 
           ) : apiData ? (
             <pre>{JSON.stringify(apiData, null, 2)}</pre>
           ) : (
-            <p>No data available.</p> // Show message if no data
+            <p>No data available.</p> 
           )}
         </div>
       </header>

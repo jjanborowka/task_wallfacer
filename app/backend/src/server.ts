@@ -9,8 +9,8 @@ fastify.register(fastifyWebsocket);
 fastify.register(analyticsRouts)
 // Register the CORS plugin
 fastify.register(fastifyCors, {
-  origin: '*', // Allow requests from this origin
-  methods: ['GET'], // Specify allowed methods
+  origin: '*', 
+  methods: ['GET'], 
 });
 
 // Define a simple route
