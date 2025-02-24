@@ -4,7 +4,7 @@ import './App.css';
 import dotenv from "dotenv";
 
 dotenv.config();
-const URL = process.env.URL
+const URL = process.env.URL ?? "localhost"
 function App() {
   const [message, setMessage] = useState<string | null>(null);
   const [apiData, setApiData] = useState<any>(null); // State to hold the API data
