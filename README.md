@@ -20,6 +20,13 @@ If you need completely fresh start.
 App is not exactly as in the description. For example propagated to the page are statistic not event itself. However statistics are calculated for each new event.
 Frontend is also very basic, no formatting just dump of data. Due to time constrain app is not publicly deployed.
 
+Proper public deployment could look like this (AWS example):
+ - listener, backend, frontend as AWS Fargate (flexible and less management needed the EC2)
+ - Data base as RDS 
+ - Msg broker as SQS 
+
+
+
 
 # Decision Log
 ## Separate Container for Blockchain Listener
