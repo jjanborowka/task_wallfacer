@@ -8,12 +8,11 @@
  ```
  - app should start on http://localhost:3003/
 
- ## PUBLIC URL : http://54.247.42.150:3003/
 
 # Comments 
 App is not exactly as in the description. For example propagated to the page are statistic not event itself. However statistics are calculated for each new event.
-Frontend is also very basic, no formatting just dump of data.
-Public deployment is done via simple server (AWS EC2), with is not a perfect solution.
+Frontend is also very basic, no formatting just dump of data. Due to time constrain app is not publicly deployed.
+
 
 # Decision Log
 ## Separate Container for Blockchain Listener
@@ -45,9 +44,6 @@ Testing is limited to simple atomic functions. More advanced tests would require
 
 ## Module Testing Limitations
 Due to time constraints, tests have been included for only one module.
-
-## Simple public deployment 
-EC2 is by no means production ready solution. 
 
 
 # Data Base Design 
