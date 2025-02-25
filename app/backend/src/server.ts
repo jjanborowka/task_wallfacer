@@ -28,12 +28,28 @@ fastify.get("/", async (request, reply) => {
 	}
 });
 
+const clients = new Set<WebSocket>();
+dbClient.on("notification", (msg) => {
+	console.log("🔔 DB Update Received:", msg.payload);
+
+	for (const client of clients) {
+		client.send(msg.payload ?? "");
+	}
+});
+
 // Websocket setup
 fastify.register(async (fastify) => {
 	fastify.get("/ws", { websocket: true }, (socket: WebSocket, req) => {
-		dbClient.on("notification", (msg) => {
-			console.log("🔔 DB Update Received:", msg.payload);
-			socket.send(msg.payload ?? "");
+		console.log("New WebSocket Connection");
+		clients.add(socket);
+
+		socket.on("close", () => {
+			console.log("WebSocket Disconnected");
+			clients.delete(socket);
+		});
+
+		socket.on("error", (err) => {
+			console.error("WebSocket Error:", err);
 		});
 	});
 });
