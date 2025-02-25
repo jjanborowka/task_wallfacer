@@ -60,9 +60,6 @@ function App() {
 		<div className="App">
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.tsx</code> and save to reload.
-				</p>
 				<code>{message || "No messages yet"}</code>
 				<div>
 					<h2>API Data:</h2>

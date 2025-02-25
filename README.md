@@ -8,6 +8,13 @@
  ```
  - app should start on http://localhost:3003/
 
+If you need completely fresh start.
+ ```
+ docker compose down
+ docker image prune -a #!!!! It will remove all containers not only in this project 
+ docker compose up --build -d
+ ```
+
 
 # Comments 
 App is not exactly as in the description. For example propagated to the page are statistic not event itself. However statistics are calculated for each new event.
