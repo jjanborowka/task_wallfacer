@@ -3,3 +3,4 @@ app/backend/dist
 app/frontend/node_modules
 app/blockchain-listener/node_modules
 */dist/*
+app/node_modules

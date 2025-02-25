@@ -8,6 +8,13 @@
  ```
  - app should start on http://localhost:3003/
 
+ ## PUBLIC URL : http://54.247.42.150:3003/
+
+# Comments 
+App is not exactly as in the description. For example propagated to the page are statistic not event itself. However statistics are calculated for each new event.
+Frontend is also very basic, no formatting just dump of data.
+Public deployment is done via simple server (AWS EC2), with is not a perfect solution.
+
 # Decision Log
 ## Separate Container for Blockchain Listener
 The blockchain listener should be in a separate container to prevent any issues with the backend affecting the listener. There is also no direct connection between the backend and the listener.
@@ -42,6 +49,7 @@ Due to time constraints, tests have been included for only one module.
 ## Simple public deployment 
 EC2 is by no means production ready solution. 
 
+
 # Data Base Design 
 
 ## ROW_INPUT_TABLE 
@@ -54,7 +62,7 @@ EC2 is by no means production ready solution.
 - can be extended by any data needed by specif queries
 ### Indexes 
 - full_date - makes filtration on date fast 
-- date_of_week - speeds up group by day of the week 
+- day_of_week - speeds up group by day of the week 
 
 ## FACT TABLE 
 - main table storing data about event
@@ -74,7 +82,7 @@ EC2 is by no means production ready solution.
 - try catch so record is not removed from ROW_INPUT_TABLE if something fails 
 - Inserts into fact table after finding right DATE_ID 
 - calculates statistic and update statistic table
-- send event to frontend 
+- send event to backend 
 
 ## COMMENTS 
 - data warehouse is structured for serving analytics queries
